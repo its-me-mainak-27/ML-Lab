@@ -1,0 +1,41 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[1]:
+
+
+import pandas as pd
+from scipy.stats import pearsonr
+
+# Load the dataset
+column_names = ["sepal_length", "sepal_width", "petal_length", "petal_width", "class"]
+iris_data = pd.read_csv("D:\ML\iris.data", names=column_names)
+
+# Calculate statistical summary for each attribute
+statistical_summary = iris_data.describe()
+
+# Calculate class correlations
+# Filtering data for each class
+setosa = iris_data[iris_data["class"] == "Iris-setosa"]
+versicolor = iris_data[iris_data["class"] == "Iris-versicolor"]
+virginica = iris_data[iris_data["class"] == "Iris-virginica"]
+
+# Calculating Pearson correlation coefficient for sepal length and petal length
+correlation_setosa_versicolor = pearsonr(setosa["sepal_length"], versicolor["petal_length"])[0]
+correlation_versicolor_virginica = pearsonr(versicolor["sepal_length"], virginica["petal_length"])[0]
+correlation_virginica_setosa = pearsonr(virginica["sepal_length"], setosa["petal_length"])[0]
+
+correlations = {
+    "Setosa-Versicolor": correlation_setosa_versicolor,
+    "Versicolor-Virginica": correlation_versicolor_virginica,
+    "Virginica-Setosa": correlation_virginica_setosa
+}
+
+statistical_summary, correlations
+
+
+# In[ ]:
+
+
+
+
